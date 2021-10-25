@@ -29,10 +29,10 @@ jobs:
           install.packages(c("remotes", "rcmdcheck"))
           # remotes::install_github("OchoaLab/genio")
           remotes::install_deps(dependencies = TRUE)
-          # remotes::install_cran("rcmdcheck")
-          # remotes::install_cran("covr")
-          # remotes::install_cran("lintr")
-          # remotes::install_github("MangoTheCat/goodpractice")
+          remotes::install_cran("rcmdcheck")
+          remotes::install_cran("covr")
+          remotes::install_cran("lintr")
+          remotes::install_github("MangoTheCat/goodpractice")
         shell: Rscript {0}
 
       - name: Check
