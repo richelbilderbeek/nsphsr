@@ -1,0 +1,318 @@
+---
+title: "usage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nsphsr)
+```
+
+The package `nsphsr` contains three objects: `pea_1`, `pea_2` and `pea_3`.
+All three are numeric matrices.
+The column names are protein names.
+The row names are (anonymized) individual names.
+The values are normalized protein concentrations (i.e. mean is zero, 
+67 percent of the values fall between -1.0 and +1.0), or are NA.
+
+```
+[richel@sens2021565-bianca NSPHS_data]$ Rscript -e 'load("pea_1_2.rntransformed.AJ.RData"); load("pea3.rntransformed.RData"); ls(); head(pea_1)'
+[1] "pea_1" "pea_2" "pea_3"
+          Adrenomedullin Amphiregulin       BAFF       CAIX      CCL21
+KA56-7890    -0.1         0.5              -0.8         0.5      -1.9
+KA67-8901     0.2         1.0              -1.8        -1.5      -0.0
+KA12-3456    -0.3        -1.1               0.5          NA      -1.6
+KA23-4567     1.4        -0.6              -0.7        -1.1      -0.7
+KA34-5678    -0.5        -0.3              -0.4        -0.3      -1.8
+KA45-6789     0.6         1.3               1.5        -1.3      -0.8
+                CCL24        CCL9     CD30-L CD40_ligand       CD69       CSF-1
+[numbers, some NA]
+              CXCL10      CXCL11      CXCL13      CXCL5       CXCL9  Caspase-3
+[numbers, some NA]
+          Cathepsin_D  Cystatin_B  E-selectin        EGF        EGFR
+[numbers, some NA]
+              EMMPRIN      Ep-CAM ErbB2_Her2 ErbB3_Her3 ErbB4_Her4      FABP4
+[numbers, some NA]
+                 FAS   FR-alpha       Flt3L Follistatin    GDF-15 Galectin-3
+[numbers, some NA]
+          Growth_Hormone     HB-EGF         HE4        HGF HGF_receptor
+[numbers, some NA]
+               IL-12     IL-1ra       IL-6       IL-8     IL17RB       IL2RA
+[numbers, some NA]
+               IL6RA Kallikrein-11 Kallikrein-6 LAP_TGF-beta-1      MCP-1
+[numbers, some NA]
+                 MIA      MIC-A        MPO    Midkine Osteoprotegerin
+[numbers, some NA]
+          PDGF_subunit_B    PECAM-1        PSA        PlGF  Prolactin
+[numbers, some NA]
+            Prostasin Stem_cell_factor TGF-alpha        TIE2      TNF-R2
+[numbers, some NA]
+              TNF-RI     TNFRSF4    TNFSF14      TR-AP Thrombopoietin
+[numbers, some NA]
+          Tissue_Factor      U-PAR     VEGF-A     VEGF-D    VEGFR-2
+[numbers, some NA]
+```
+
+
+and
+
+```
+[richel@sens2021565-bianca NSPHS_data]$ Rscript -e 'load("pea_1_2.rntransformed.AJ.RData"); load("pea3.rntransformed.RData"); ls(); colnames(pea_1); colnames(pea_2); colnames(pea_3)'
+[1] "pea_1" "pea_2" "pea_3"
+ [1] "Adrenomedullin"   "Amphiregulin"     "BAFF"             "CAIX"            
+ [5] "CCL21"            "CCL24"            "CCL9"             "CD30-L"          
+ [9] "CD40_ligand"      "CD69"             "CSF-1"            "CXCL10"          
+[13] "CXCL11"           "CXCL13"           "CXCL5"            "CXCL9"           
+[17] "Caspase-3"        "Cathepsin_D"      "Cystatin_B"       "E-selectin"      
+[21] "EGF"              "EGFR"             "EMMPRIN"          "Ep-CAM"          
+[25] "ErbB2_Her2"       "ErbB3_Her3"       "ErbB4_Her4"       "FABP4"           
+[29] "FAS"              "FR-alpha"         "Flt3L"            "Follistatin"     
+[33] "GDF-15"           "Galectin-3"       "Growth_Hormone"   "HB-EGF"          
+[37] "HE4"              "HGF"              "HGF_receptor"     "IL-12"           
+[41] "IL-1ra"           "IL-6"             "IL-8"             "IL17RB"          
+[45] "IL2RA"            "IL6RA"            "Kallikrein-11"    "Kallikrein-6"    
+[49] "LAP_TGF-beta-1"   "MCP-1"            "MIA"              "MIC-A"           
+[53] "MPO"              "Midkine"          "Osteoprotegerin"  "PDGF_subunit_B"  
+[57] "PECAM-1"          "PSA"              "PlGF"             "Prolactin"       
+[61] "Prostasin"        "Stem_cell_factor" "TGF-alpha"        "TIE2"            
+[65] "TNF-R2"           "TNF-RI"           "TNFRSF4"          "TNFSF14"         
+[69] "TR-AP"            "Thrombopoietin"   "Tissue_Factor"    "U-PAR"           
+[73] "VEGF-A"           "VEGF-D"           "VEGFR-2"         
+ [1] "SRC"      "CSTB"     "PAR-1"    "TRAIL"    "IL27-A"   "CXCL1"   
+ [7] "LOX-1"    "TRAIL-R2" "FGF-23"   "IL-18"    "HSP_27"   "MMP-1"   
+[13] "RETN"     "REN"      "CHI3L1"   "ST2"      "TIM"      "mAmP"    
+[19] "TRANCE"   "PSGL-1"   "MB"       "TM"       "IL-16"    "MMP-10"  
+[25] "CCL4"     "RAGE"     "CCL3"     "MMP-7"    "CXCL6"    "CXCL16"  
+[31] "Dkk-1"    "SIRT2"    "GAL"      "AGRP"     "EN-RAGE"  "CD40"    
+[37] "t-PA"     "HB-EGF"   "ESM-1"    "MMP-12"   "SPON1"    "CASP-8"  
+[43] "CTSL1"    "CX3CL1"   "LEP"      "CCL20"    "NEMO"     "ECP"     
+  [1] "CVD2_101_BMP-6"                "CVD2_102_ANG-1"               
+  [3] "CVD2_103_ADM"                  "CVD2_105_CD40-L"              
+  [5] "CVD2_106_SLAMF7"               "CVD2_107_PlGF"                
+  [7] "CVD2_108_ADAM-TS13"            "CVD2_109_Protein-BOC"         
+  [9] "CVD2_110_IL-4RA"               "CVD2_111_SRC"                 
+ [11] "CVD2_112_IL-1ra"               "CVD2_113_IL-6"                
+ [13] "CVD2_114_TNFRSF10A"            "CVD2_115_STK4"                
+ [15] "CVD2_116_IDUA"                 "CVD2_117_TNFRSF11A"           
+ [17] "CVD2_118_PAR-1"                "CVD2_120_TRAIL-R2"            
+ [19] "CVD2_121_PRSS27"               "CVD2_122_TIE2"                
+ [21] "CVD2_123_TF"                   "CVD2_124_IL1RL2"              
+ [23] "CVD2_125_PDGF-subunit-B"       "CVD2_126_IL27"                
+ [25] "CVD2_127_IL-17D"               "CVD2_128_CXCL1"               
+ [27] "CVD2_129_LOX-1"                "CVD2_130_Gal-9"               
+ [29] "CVD2_131_GIF"                  "CVD2_132_SCF"                 
+ [31] "CVD2_133_IL-18"                "CVD2_134_FGF-21"              
+ [33] "CVD2_135_PIgR"                 "CVD2_136_RAGE"                
+ [35] "CVD2_137_SOD2"                 "CVD2_138_CTRC"                
+ [37] "CVD2_139_FGF-23"               "CVD2_140_SPON2"               
+ [39] "CVD2_141_GH"                   "CVD2_142_FS"                  
+ [41] "CVD2_143_GLO1"                 "CVD2_144_CD84"                
+ [43] "CVD2_145_PAPPA"                "CVD2_148_SERPINA12"           
+ [45] "CVD2_149_REN"                  "CVD2_150_DECR1"               
+ [47] "CVD2_151_MERTK"                "CVD2_152_TIM"                 
+ [49] "CVD2_153_THBS2"                "CVD2_154_TM"                  
+ [51] "CVD2_155_VSIG2"                "CVD2_156_AMBP"                
+ [53] "CVD2_157_PRELP"                "CVD2_158_HO-1"                
+ [55] "CVD2_159_XCL1"                 "CVD2_160_IL16"                
+ [57] "CVD2_161_SORT1"                "CVD2_162_CEACAM8"             
+ [59] "CVD2_163_PTX3"                 "CVD2_164_PSGL-1"              
+ [61] "CVD2_165_CCL17"                "CVD2_166_CCL3"                
+ [63] "CVD2_167_MMP-7"                "CVD2_168_IgG-Fc-receptor-II-b"
+ [65] "CVD2_169_ITGB1BP2"             "CVD2_170_DCN"                 
+ [67] "CVD2_171_Dkk-1"                "CVD2_172_LPL"                 
+ [69] "CVD2_173_PRSS8"                "CVD2_174_AGRP"                
+ [71] "CVD2_175_HB-EGF"               "CVD2_176_GDF-2"               
+ [73] "CVD2_177_FABP2"                "CVD2_178_THPO"                
+ [75] "CVD2_179_MARCO"                "CVD2_180_GT"                  
+ [77] "CVD2_181_BNP"                  "CVD2_182_MMP-12"              
+ [79] "CVD2_183_ACE2"                 "CVD2_184_PD-L2"               
+ [81] "CVD2_185_CTSL1"                "CVD2_186_hOSCAR"              
+ [83] "CVD2_187_TNFRSF13B"            "CVD2_188_TGM2"                
+ [85] "CVD2_189_LEP"                  "CVD2_190_CA5A"                
+ [87] "CVD2_191_HSP-27"               "CVD2_192_CD4"                 
+ [89] "CVD2_193_NEMO"                 "CVD2_194_VEGF-D"              
+ [91] "CVD2_195_PARP-1"               "CVD2_196_HAOX1"               
+ [93] "CVD3_101_TNFRSF14"             "CVD3_102_LDL-receptor"        
+ [95] "CVD3_103_ITGB2"                "CVD3_105_IL-17RA"             
+ [97] "CVD3_106_TNF-R2"               "CVD3_107_MMP-9"               
+ [99] "CVD3_108_EPHB4"                "CVD3_109_IL2-RA"              
+[101] "CVD3_110_OPG"                  "CVD3_111_ALCAM"               
+[103] "CVD3_112_TFF3"                 "CVD3_113_SELP"                
+[105] "CVD3_114_CSTB"                 "CVD3_115_MCP-1"               
+[107] "CVD3_116_CD163"                "CVD3_117_Gal-3"               
+[109] "CVD3_118_GRN"                  "CVD3_120_MEPE"                
+[111] "CVD3_121_BLM-hydrolase"        "CVD3_122_PLC"                 
+[113] "CVD3_123_LTBR"                 "CVD3_124_Notch-3"             
+[115] "CVD3_125_TIMP4"                "CVD3_126_CNTN1"               
+[117] "CVD3_127_CDH5"                 "CVD3_128_TLT-2"               
+[119] "CVD3_129_FABP4"                "CVD3_130_TFPI"                
+[121] "CVD3_131_PAI"                  "CVD3_132_CCL24"               
+[123] "CVD3_133_TR"                   "CVD3_134_TNFRSF10C"           
+[125] "CVD3_135_GDF-15"               "CVD3_136_SELE"                
+[127] "CVD3_137_AZU1"                 "CVD3_138_DLK-1"               
+[129] "CVD3_139_SPON1"                "CVD3_140_MPO"                 
+[131] "CVD3_141_CXCL16"               "CVD3_142_IL-6RA"              
+[133] "CVD3_143_RETN"                 "CVD3_144_IGFBP-1"             
+[135] "CVD3_145_CHIT1"                "CVD3_148_TR-AP"               
+[137] "CVD3_149_CCL22"                "CVD3_150_PSP-D"               
+[139] "CVD3_151_PI3"                  "CVD3_152_Ep-CAM"              
+[141] "CVD3_153_AP-N"                 "CVD3_154_AXL"                 
+[143] "CVD3_155_IL-1RT1"              "CVD3_156_MMP-2"               
+[145] "CVD3_157_FAS"                  "CVD3_158_MB"                  
+[147] "CVD3_159_TNFSF13B"             "CVD3_160_PRTN3"               
+[149] "CVD3_161_PCSK9"                "CVD3_162_U-PAR"               
+[151] "CVD3_163_OPN"                  "CVD3_164_CTSD"                
+[153] "CVD3_165_PGLYRP1"              "CVD3_166_CPA1"                
+[155] "CVD3_167_JAM-A"                "CVD3_168_Gal-4"               
+[157] "CVD3_169_IL-1RT2"              "CVD3_170_SHPS-1"              
+[159] "CVD3_171_CCL15"                "CVD3_172_CASP-3"              
+[161] "CVD3_173_uPA"                  "CVD3_174_CPB1"                
+[163] "CVD3_175_CHI3L1"               "CVD3_176_ST2"                 
+[165] "CVD3_177_t-PA"                 "CVD3_178_SCGB3A2"             
+[167] "CVD3_179_EGFR"                 "CVD3_180_IGFBP-7"             
+[169] "CVD3_181_CD93"                 "CVD3_182_IL-18BP"             
+[171] "CVD3_183_COL1A1"               "CVD3_184_PON3"                
+[173] "CVD3_185_CTSZ"                 "CVD3_186_MMP-3"               
+[175] "CVD3_187_RARRES2"              "CVD3_188_ICAM-2"              
+[177] "CVD3_189_KLK6"                 "CVD3_190_PDGF-subunit-A"      
+[179] "CVD3_191_TNF-R1"               "CVD3_192_IGFBP-2"             
+[181] "CVD3_193_vWF"                  "CVD3_194_PECAM-1"             
+[183] "CVD3_195_NT-pro-BNP"           "CVD3_196_CCL16"               
+[185] "ONC2_101_TXLNA"                "ONC2_102_VEGF-A"              
+[187] "ONC2_103_CPE"                  "ONC2_105_KLK13"               
+[189] "ONC2_106_CEACAM1"              "ONC2_107_MSLN"                
+[191] "ONC2_108_TNFSF13"              "ONC2_109_EGF"                 
+[193] "ONC2_110_TNFRSF6B"             "ONC2_111_SYND1"               
+[195] "ONC2_112_TGFR-2"               "ONC2_113_IL-6"                
+[197] "ONC2_114_CD48"                 "ONC2_115_SCAMP3"              
+[199] "ONC2_116_LY9"                  "ONC2_117_IFN-gamma-R1"        
+[201] "ONC2_118_ITGAV"                "ONC2_120_TNFSF10"             
+[203] "ONC2_121_hK11"                 "ONC2_122_GPC1"                
+[205] "ONC2_123_TFPI-2"               "ONC2_124_hK8"                 
+[207] "ONC2_125_VEGFR-2"              "ONC2_126_LYPD3"               
+[209] "ONC2_127_PODXL"                "ONC2_128_S100A4"              
+[211] "ONC2_129_IGF1R"                "ONC2_130_ERBB2"               
+[213] "ONC2_131_ERBB3"                "ONC2_132_SCF"                 
+[215] "ONC2_133_SPARC"                "ONC2_134_GZMH"                
+[217] "ONC2_135_TGF-alpha"            "ONC2_136_FURIN"               
+[219] "ONC2_137_CYR61"                "ONC2_138_hK14"                
+[221] "ONC2_139_FADD"                 "ONC2_140_MetAP-2"             
+[223] "ONC2_141_PVRL4"                "ONC2_142_FASLG"               
+[225] "ONC2_143_EPHA2"                "ONC2_144_ITGB5"               
+[227] "ONC2_145_Gal-1"                "ONC2_148_SEZ6L"               
+[229] "ONC2_149_GPNMB"                "ONC2_150_CA9"                 
+[231] "ONC2_151_MIA"                  "ONC2_152_CTSV"                
+[233] "ONC2_153_CD27"                 "ONC2_154_XPNPEP2"             
+[235] "ONC2_155_ERBB4"                "ONC2_156_HGF"                 
+[237] "ONC2_157_ADAM-8"               "ONC2_158_5-NT"                
+[239] "ONC2_159_DKN1A"                "ONC2_160_DLL1"                
+[241] "ONC2_161_MK"                   "ONC2_162_ABL1"                
+[243] "ONC2_163_FGF-BP1"              "ONC2_164_TLR3"                
+[245] "ONC2_165_LYN"                  "ONC2_166_RET"                 
+[247] "ONC2_167_VIM"                  "ONC2_168_TNFRSF19"            
+[249] "ONC2_169_CRNN"                 "ONC2_170_TCL1A"               
+[251] "ONC2_171_CD160"                "ONC2_172_TNFRSF4"             
+[253] "ONC2_173_MIC-AB"               "ONC2_174_WISP-1"              
+[255] "ONC2_175_CXL17"                "ONC2_176_PPY"                 
+[257] "ONC2_177_S100A11"              "ONC2_178_AR"                  
+[259] "ONC2_179_ESM-1"                "ONC2_180_CD207"               
+[261] "ONC2_181_ICOSLG"               "ONC2_182_WFDC2"               
+[263] "ONC2_183_CXCL13"               "ONC2_184_MAD-homolog-5"       
+[265] "ONC2_185_ADAM-TS-15"           "ONC2_186_CD70"                
+[267] "ONC2_187_RSPO3"                "ONC2_188_FR-gamma"            
+[269] "ONC2_189_CEACAM5"              "ONC2_190_VEGFR-3"             
+[271] "ONC2_191_MUC-16"               "ONC2_192_WIF-1"               
+[273] "ONC2_193_GZMB"                 "ONC2_194_FCRLB"               
+[275] "ONC2_195_ANXA1"                "ONC2_196_FR-alpha"            
+[277] "NEU_101_NMNAT1"                "NEU_102_NRP2"                 
+[279] "NEU_103_BDNF"                  "NEU_105_CADM3"                
+[281] "NEU_106_GDNF"                  "NEU_107_UNC5C"                
+[283] "NEU_108_VWC2"                  "NEU_109_Siglec-9"             
+[285] "NEU_110_CLM-6"                 "NEU_111_EZR"                  
+[287] "NEU_112_SMOC2"                 "NEU_113_NBL1"                 
+[289] "NEU_114_EFNA4"                 "NEU_115_SCARB2"               
+[291] "NEU_116_NCAN"                  "NEU_117_PRTG"                 
+[293] "NEU_118_ROBO2"                 "NEU_120_CRTAM"                
+[295] "NEU_121_RGMA"                  "NEU_122_PLXNB3"               
+[297] "NEU_123_CPA2"                  "NEU_124_CD38"                 
+[299] "NEU_125_SMPD1"                 "NEU_126_MSR1"                 
+[301] "NEU_127_Alpha-2-MRAP"          "NEU_128_sFRP-3"               
+[303] "NEU_129_EPHB6"                 "NEU_130_RGMB"                 
+[305] "NEU_131_SIGLEC1"               "NEU_132_CNTN5"                
+[307] "NEU_133_ADAM-22"               "NEU_134_CLEC1B"               
+[309] "NEU_135_ADAM-23"               "NEU_136_MATN3"                
+[311] "NEU_137_RSPO1"                 "NEU_138_HAGH"                 
+[313] "NEU_139_LXN"                   "NEU_140_gal-8"                
+[315] "NEU_141_BCAN"                  "NEU_142_LAYN"                 
+[317] "NEU_143_NEP"                   "NEU_144_GDF-8"                
+[319] "NEU_145_THY-1"                 "NEU_148_WFIKKN1"              
+[321] "NEU_149_TMPRSS5"               "NEU_150_CDH3"                 
+[323] "NEU_151_GFR-alpha-1"           "NEU_152_GM-CSF-R-alpha"       
+[325] "NEU_153_Beta-NGF"              "NEU_154_SCARA5"               
+[327] "NEU_155_CD200"                 "NEU_156_NTRK2"                
+[329] "NEU_157_GZMA"                  "NEU_158_G-CSF"                
+[331] "NEU_159_DRAXIN"                "NEU_160_SCARF2"               
+[333] "NEU_161_GDNFR-alpha-3"         "NEU_162_PVR"                  
+[335] "NEU_163_TNFRSF12A"             "NEU_164_SKR3"                 
+[337] "NEU_165_FLRT2"                 "NEU_166_CPM"                  
+[339] "NEU_167_CLEC10A"               "NEU_168_GCP5"                 
+[341] "NEU_169_BMP-4"                 "NEU_170_FcRL2"                
+[343] "NEU_171_MDGA1"                 "NEU_172_IL-5R-alpha"          
+[345] "NEU_173_PDGF-R-alpha"          "NEU_174_CTSC"                 
+[347] "NEU_175_CDH6"                  "NEU_176_DDR1"                 
+[349] "NEU_177_JAM-B"                 "NEU_178_CTSS"                 
+[351] "NEU_179_N-CDase"               "NEU_180_NAAA"                 
+[353] "NEU_181_N2DL-2"                "NEU_182_PLXNB1"               
+[355] "NEU_183_TNFRSF21"              "NEU_184_CLM-1"                
+[357] "NEU_185_SPOCK1"                "NEU_186_IL-12B,-IL-12A"       
+[359] "NEU_187_Dkk-4"                 "NEU_188_EDA2R"                
+[361] "NEU_189_LAT"                   "NEU_190_NTRK3"                
+[363] "NEU_191_LAIR-2"                "NEU_192_MANF"                 
+[365] "NEU_193_TN-R"                  "NEU_194_CD200R1"              
+[367] "NEU_195_Nr-CAM"                "NEU_196_KYNU"                 
+[369] "INF_101_IL-8"                  "INF_105_MCP-3"                
+[371] "INF_107_CDCP1"                 "INF_108_CD244"                
+[373] "INF_109_IL-7"                  "INF_111_LAP-TGF-beta-1"       
+[375] "INF_114_IL-17C"                "INF_116_IL-17A"               
+[377] "INF_117_CXCL11"                "INF_118_AXIN1"                
+[379] "INF_121_IL-20RA"               "INF_122_CXCL9"                
+[381] "INF_123_CST5"                  "INF_124_IL-2RB"               
+[383] "INF_125_IL-1-alpha"            "INF_126_OSM"                  
+[385] "INF_130_CCL4"                  "INF_131_CD6"                  
+[387] "INF_134_SLAMF1"                "INF_136_MCP-4"                
+[389] "INF_137_CCL11"                 "INF_138_TNFSF14"              
+[391] "INF_140_IL-10RA"               "INF_141_FGF-5"                
+[393] "INF_142_MMP-1"                 "INF_143_LIF-R"                
+[395] "INF_145_CCL19"                 "INF_148_IL-15RA"              
+[397] "INF_149_IL-10RB"               "INF_150_IL-22-RA1"            
+[399] "INF_151_IL-18R1"               "INF_152_PD-L1"                
+[401] "INF_154_CXCL5"                 "INF_155_TRANCE"               
+[403] "INF_157_IL-12B"                "INF_158_IL-24"                
+[405] "INF_159_IL-13"                 "INF_161_MMP-10"               
+[407] "INF_162_IL-10"                 "INF_164_CCL23"                
+[409] "INF_165_CD5"                   "INF_167_Flt3L"                
+[411] "INF_168_CXCL6"                 "INF_169_CXCL10"               
+[413] "INF_170_4E-BP1"                "INF_171_IL-20"                
+[415] "INF_172_SIRT2"                 "INF_173_CCL28"                
+[417] "INF_174_DNER"                  "INF_175_EN-RAGE"              
+[419] "INF_176_CD40"                  "INF_178_IFN-gamma"            
+[421] "INF_179_FGF-19"                "INF_180_IL-4"                 
+[423] "INF_181_LIF"                   "INF_182_NRTN"                 
+[425] "INF_183_MCP-2"                 "INF_184_CASP-8"               
+[427] "INF_185_CCL25"                 "INF_186_CX3CL1"               
+[429] "INF_187_TNFRSF9"               "INF_188_NT-3"                 
+[431] "INF_189_TWEAK"                 "INF_190_CCL20"                
+[433] "INF_191_ST1A1"                 "INF_192_STAMPB"               
+[435] "INF_193_IL-5"                  "INF_194_ADA"                  
+[437] "INF_195_TNFB"                  "INF_196_CSF-1"            
+```

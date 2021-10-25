@@ -1,0 +1,22 @@
+Package: nsphsr
+Title: Work with the NSPHS data
+Version: 0.0.0.9000
+Authors@R:
+    person("Richèl J.C.", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049"))
+Description: The Northern Swedish Population Health Study is a 
+    population study in which genetic and phenotypic data was collected
+    in more than 1000 Swedes. 
+    As that data is sensitive, it cannot be made public.
+    This package mimicks the dataset as close as possible, yet with
+    random/simulated values instead.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
