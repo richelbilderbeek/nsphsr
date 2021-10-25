@@ -1,4 +1,9 @@
 # nsphsr
 
+Branch   |[![GitHub Actions logo](man/figures/GitHubActions.png)](https://github.com/richelbilderbeek/nsphsr/actions)|[![AppVeyor logo](man/figures/AppVeyor.png)](https://ci.appveyor.com/project/richelbilderbeek/nsphsr/)                                                                                 |[![Codecov logo](man/figures/Codecov.png)](https://www.codecov.io)
+---------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
+`master` |![R-CMD-check](https://github.com/richelbilderbeek/nsphsr/workflows/R-CMD-check/badge.svg?branch=master)   |[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/richelbilderbeek/nsphsr?branch=master&svg=true)](https://ci.appveyor.com/project/richelbilderbeek/nsphsr) |[![codecov.io](https://codecov.io/github/richelbilderbeek/nsphsr/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/nsphsr/branch/master)
+`develop`|![R-CMD-check](https://github.com/richelbilderbeek/nsphsr/workflows/R-CMD-check/badge.svg?branch=develop)  |[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/richelbilderbeek/nsphsr?branch=develop&svg=true)](https://ci.appveyor.com/project/richelbilderbeek/nsphsr)|[![codecov.io](https://codecov.io/github/richelbilderbeek/nsphsr/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/nsphsr/branch/develop)
+
 R package to work with the Northern Sweden Population Health Study, except for containing simulated/fake data.
 
