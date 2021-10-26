@@ -1,6 +1,6 @@
-#' Function to (re)create the global variable pae_1
+#' Function to (re)create the global variable pea_1
 #' @export
-create_pae_1 <- function() {
+create_pea_1 <- function() {
 
   protein_names <- c(
     "Adrenomedullin", "Amphiregulin", "BAFF", "CAIX",
@@ -29,16 +29,15 @@ create_pae_1 <- function() {
   individual_names <- paste0("AB01-", seq(1, 949))
   testthat::expect_equal(length(individual_names), 949)
 
-  data <- rnorm(n = length(individual_names) * length(protein_names))
+  data <- stats::rnorm(n = length(individual_names) * length(protein_names))
 
   na_indices <- sample(seq_along(data), size = 4482, replace = FALSE)
   data[na_indices] <- NA
 
-  m <- matrix(
+  matrix(
     data = data,
     nrow = length(individual_names),
     ncol = length(protein_names),
     dimnames = list(individual_names, protein_names)
   )
-
 }
